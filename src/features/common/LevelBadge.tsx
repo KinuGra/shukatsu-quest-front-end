@@ -2,10 +2,10 @@
 //中央ステージ一覧
 import React from "react";
 
-export default function QuestBoard() {
+export default function LevelBadge() {
   return (
     <div>
-      <h1>クエストボード</h1>
+      <h1>レベル</h1>
     </div>
   );
 }

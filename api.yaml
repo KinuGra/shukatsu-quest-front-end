@@ -155,6 +155,9 @@ components:
           format: uuid
         name:
           type: string
+        type:
+          type: string
+          description: クエストの種類
         number:
           type: integer
           description: クエストの順番

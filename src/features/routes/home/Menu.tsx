@@ -1,11 +1,12 @@
+//左メニュー
 //クエストボード
 //中央ステージ一覧
 import React from "react";
 
-export default function QuestBoard() {
+export default function Menu() {
   return (
     <div>
-      <h1>クエストボード</h1>
+      <h1>メニュー</h1>
     </div>
   );
 }
