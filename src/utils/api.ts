@@ -27,14 +27,14 @@ type AchievementResponse = {
 type StageResponse = {
   id: string;
   name: string;
-  num: number;
+  number: number;
   quests: QuestResponse[];
 };
 
 type QuestResponse = {
   id: string;
   name: string;
-  num: number;
+  number: number;
   type: string;
   baseExp: number;
 };
@@ -84,7 +84,12 @@ export const getAchievements = async (userId: string) => {
     }
     const resBody: AchievementResponse[] = await response.json();
     const achievements: Achievement[] = resBody.map((a: any) => {
-      return new Achievement(a.id, a.questId, a.stageId, new Date(a.clearedAt));
+      return new Achievement(
+        a.id,
+        a.quest_id,
+        a.stage_id,
+        new Date(a.clearedAt),
+      );
     });
     return achievements;
   } catch (e) {
@@ -101,12 +106,13 @@ export const getStages = async () => {
       throw new Error("ステージが見つかりません");
     }
     const resBody: StageResponse[] = await response.json();
-    const stages: Stage[] = resBody.map((s: any) => {
-      const quests = s.quests.map((q: any) => {
-        return new Quest(q.id, q.name, q.num, q.type, q.baseExp);
+    const stages: Stage[] = resBody.map((s: StageResponse) => {
+      const quests = s.quests.map((q: QuestResponse) => {
+        return new Quest(q.id, q.name, q.number, q.type, q.baseExp);
       });
-      return new Stage(s.id, s.name, s.num, quests);
+      return new Stage(s.id, s.name, s.number, quests);
     });
+
     return stages;
   } catch (e) {
     console.log(e);
