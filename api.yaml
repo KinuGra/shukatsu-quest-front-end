@@ -23,7 +23,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-  /user/{userId}/achievements:
+  /achievements/{userId}:
     get:
       summary: ユーザーの実績を取得
       parameters:
@@ -42,7 +42,7 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Achievement"
-  /stages:
+  /stages-with-quests:
     get:
       summary: すべてのステージとそれらのクエストを取得
       responses:
@@ -71,7 +71,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/StageWithQuests"
-  /user/{userId}/quest/{questId}:
+  /quest/{questId}/user/{userId}:
     post:
       summary: クエストを完了としてマーク
       parameters:
@@ -84,7 +84,7 @@ paths:
       responses:
         "200":
           description: クエストが完了としてマークされました
-  /user/{userId}/quest/{questId}/es:
+  /es/quest/{questId}/user/{userId}:
     post:
       summary: クエストのESを提出
       parameters:
@@ -161,6 +161,8 @@ components:
         number:
           type: integer
           description: クエストの順番
+        base_exp:
+          type: integer
     StageWithQuests:
       type: object
       properties:
@@ -185,10 +187,12 @@ components:
           type: string
         length:
           type: integer
-
     scoredEs:
       type: object
       properties:
+        id:
+          type: string
+          format: uuid
         es_id:
           type: string
           format: uuid
@@ -199,6 +203,8 @@ components:
             type: object
             properties:
               category:
+                type: string
+              description:
                 type: string
               score:
                 type: integer
@@ -218,3 +224,6 @@ components:
         correction_comment:
           type: string
           description: 添削コメント
+        comment:
+          type: string
+          description: ESに対するコメント
