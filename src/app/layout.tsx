@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Provider } from "@/components/ui/provider";
 import "./globals.css";
 import Menu from "@/features/routes/home/Menu";
+import React from "react";
+import StageView from "@/features/routes/home/StageView";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,6 +20,7 @@ export default function RootLayout({
       <body>
         <Provider>
           <Menu />
+          <StageView />
           {children}
         </Provider>
       </body>
