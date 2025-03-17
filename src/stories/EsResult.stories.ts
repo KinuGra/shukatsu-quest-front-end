@@ -1,10 +1,9 @@
 import { Meta } from "@storybook/react";
 
-
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
-import EsResult from "@/features/routes/ES/ESResult";
+import EsResult from "@/features/routes/es/EsResult";
 const meta: Meta<typeof EsResult> = {
-  title: "ES/ESResult",
+  title: "es/EsResult",
   component: EsResult,
 };
 

@@ -1,9 +1,8 @@
 //中央ステージ一覧
 import Stage from "@/class/stage";
 import React, { useState } from "react";
-import { Box, Button, Heading, Portal } from "@chakra-ui/react";
+import { Box, Button, Heading, Portal, Drawer } from "@chakra-ui/react";
 import themes from "@/constants/themes";
-import { Drawer } from "@chakra-ui/react";
 import QuestBoard from "./questBoard";
 
 export default function StageView({ stages }: { stages: Stage[] }) {
