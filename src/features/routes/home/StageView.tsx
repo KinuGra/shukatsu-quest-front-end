@@ -1,37 +1,72 @@
 //中央ステージ一覧
-import React from "react";
+import Stage from "@/class/stage";
+import React, { useState } from "react";
+import { Box, Button, Heading, Portal, Drawer } from "@chakra-ui/react";
+import themes from "@/constants/themes";
+import QuestBoard from "./questBoard";
 
-export default function StageView() {
+export default function StageView({ stages }: { stages: Stage[] }) {
+  const columnRation = 100 / stages.length;
+  const column = `repeat(${stages.length}, ${columnRation}%)`;
+  const [selectedStage, setSelectedStage] = useState<Stage>();
+
   return (
-    <div>
-      <h1>ステージ一覧</h1>
-      <div style={containerStyle}>
-        <button style={buttonStyle}>Stage 1</button>
-        <button style={buttonStyle}>Stage 2</button>
-        <button style={buttonStyle}>Stage 3</button>
-        <button style={buttonStyle}>Stage 4</button>
-        <button style={buttonStyle}>Stage 5</button>
-      </div>
-    </div>
+    <Box padding={"5%"}>
+      <Heading>ステージ一覧</Heading>
+      <Box
+        padding={"5%"}
+        display={"grid"}
+        gridTemplateColumns={"33% 33% 1fr"}
+        gridTemplateRows={column}
+        gap={"10%"}
+        alignItems={"center"}
+      >
+        {stages.map((stage, index) => {
+          const y = index;
+          let x = index;
+          if (index % 5 == 3) {
+            x = 1;
+          } else if (index % 5 == 4) {
+            x = 0;
+          }
+          return (
+            <Button
+              gridRow={y + 1}
+              gridColumn={x + 1}
+              key={stage.id}
+              width={"100px"}
+              height={"100px"}
+              borderRadius={"50%"}
+              textAlign={"center"}
+              lineHeight={"10%"}
+              backgroundColor={themes.charcoalBrown}
+              color={themes.white}
+              border={"none"}
+              cursor={"pointer"}
+              onClick={() => {
+                setSelectedStage(stage);
+              }}
+            >
+              {stage.name}
+            </Button>
+          );
+        })}
+      </Box>
+      <Box>
+        <Drawer.Root
+          open={selectedStage != undefined}
+          onOpenChange={() => setSelectedStage(undefined)}
+        >
+          <Portal>
+            <Drawer.Backdrop />
+            <Drawer.Positioner>
+              <Drawer.Content>
+                {selectedStage && <QuestBoard quests={selectedStage.quests} />}
+              </Drawer.Content>
+            </Drawer.Positioner>
+          </Portal>
+        </Drawer.Root>
+      </Box>
+    </Box>
   );
 }
-
-const containerStyle = {
-  display: 'grid',
-  gridTemplateColumns: '50px 50px',
-  gridTemplateRows: '50px 50px 50px',
-  gap: '10px',
-  alignItems: 'center',
-};
-
-const buttonStyle = {
-  width: '50px',
-  height: '50px',
-  borderRadius: '50%',
-  textAlign: 'center',
-  lineHeight: '50px',
-  backgroundColor: '#007bff',
-  color: 'white',
-  border: 'none',
-  cursor: 'pointer'
-};
