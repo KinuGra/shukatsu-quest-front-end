@@ -18,6 +18,7 @@ export default class scoredEs extends Es {
   public allScore: number;
   public correction: string;
   public correctionComment: string;
+
   constructor(
     es: Es,
     categories: Category[],

@@ -3,10 +3,11 @@ import Es from "@/class/es";
 import Stage from "@/class/stage";
 import User from "@/class/user";
 import ScoredEs, { Category } from "@/class/scoredEs";
+import Quest from "@/class/quest";
 
-const API_BASE_URL = process.env.BAC;
-if (!API_BASE_URL) {
-  throw new Error("API_BASE_URLが設定されていません");
+const BACK_END_API_BASE_URL = process.env.BACK_END_API_BASE_URL;
+if (!BACK_END_API_BASE_URL) {
+  throw new Error("BACK_END_API_BASE_URLが設定されていません");
 }
 
 type UserResponse = {
@@ -35,11 +36,16 @@ type QuestResponse = {
   name: string;
   num: number;
   type: string;
+  baseExp: number;
 };
 
 type ScoredEsResponse = {
+  id: string;
+  esId: string;
   categories: CategoryResponse[];
+  answer: string;
   allScore: number;
+  comment: string;
   correction: string;
   correctionComment: string;
 };
@@ -53,8 +59,9 @@ type CategoryResponse = {
 
 // ユーザー情報を取得
 export const getUser = async (userId: string) => {
+  const url = `${BACK_END_API_BASE_URL}/user/${userId}`;
   try {
-    const response = await fetch(`${API_BASE_URL}/users/${userId}`);
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error("ユーザーが見つかりません");
     }
@@ -69,34 +76,36 @@ export const getUser = async (userId: string) => {
 
 // ユーザーの実績を取得
 export const getAchievements = async (userId: string) => {
+  const url = `${BACK_END_API_BASE_URL}/achievements/${userId}`;
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/users/${userId}/achievements`,
-    );
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error("実績が見つかりません");
     }
     const resBody: AchievementResponse[] = await response.json();
     const achievements: Achievement[] = resBody.map((a: any) => {
-      return new Achievement(a.id, a.questId, a.stageId, a.clearedAt);
+      return new Achievement(a.id, a.questId, a.stageId, new Date(a.clearedAt));
     });
     return achievements;
   } catch (e) {
-    console.log(e);
     throw e;
   }
 };
 
 // ステージ・クエスト情報を取得
 export const getStages = async () => {
+  const url = `${BACK_END_API_BASE_URL}/stages-with-quests`;
   try {
-    const response = await fetch(`${API_BASE_URL}/stages`);
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error("ステージが見つかりません");
     }
     const resBody: StageResponse[] = await response.json();
     const stages: Stage[] = resBody.map((s: any) => {
-      return new Stage(s.id, s.name, s.num, s.quests);
+      const quests = s.quests.map((q: any) => {
+        return new Quest(q.id, q.name, q.num, q.type, q.baseExp);
+      });
+      return new Stage(s.id, s.name, s.num, quests);
     });
     return stages;
   } catch (e) {
@@ -107,13 +116,11 @@ export const getStages = async () => {
 
 // ES以外のクエストをクリア
 export const postQuestDone = async (userId: string, questId: string) => {
+  const url = `${BACK_END_API_BASE_URL}/quest/${questId}/user/${userId}`;
   try {
-    const response = await fetch(
-      `${API_BASE_URL}/users/${userId}/quests/${questId}`,
-      {
-        method: "POST",
-      },
-    );
+    const response = await fetch(url, {
+      method: "POST",
+    });
     if (!response.ok) {
       throw new Error("クエストのクリアに失敗しました");
     }
@@ -127,7 +134,7 @@ export const postQuestDone = async (userId: string, questId: string) => {
 export const postEsDone = async (es: Es) => {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/user/${es.userId}/quest/${es.questId}/es`,
+      `${BACK_END_API_BASE_URL}/es/quest/${es.questId}/user/${es.userId}`,
       {
         method: "POST",
         headers: {
