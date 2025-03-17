@@ -1,13 +1,13 @@
 type QuestType = "es" | "normal";
 
 export default class Quest {
-  public id: number;
+  public id: string;
   public name: string;
   public num: number;
   public type: QuestType;
   public baseExp: number;
   constructor(
-    id: number,
+    id: string,
     name: string,
     num: number,
     type: string,
