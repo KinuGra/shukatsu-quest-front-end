@@ -5,7 +5,7 @@ import { Box, Heading, List, ListItem, Link as ChakraLink, Flex } from "@chakra-
 
 export default function Menu() {
   return (
-    <Box width="250px" height="100vh" bg="gray.100" p="20px" boxShadow="2xl">
+    <Box width="250px" height="100vh" bg="gray.100" p="20px" boxShadow="none">
       <Heading as="h1" size="lg" mb="20px" color="#000">就活QUEST</Heading>
       <List.Root style={{ listStyleType: "none", padding: 0 }}>
         <List.Item style={{ marginBottom: "10px" }}>
