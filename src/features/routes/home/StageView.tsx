@@ -1,4 +1,6 @@
 //中央ステージ一覧
+"use client";
+
 import Stage from "@/class/stage";
 import React, { useState } from "react";
 import { Box, Button, Heading, Portal, Drawer } from "@chakra-ui/react";
