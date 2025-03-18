@@ -1,8 +1,9 @@
 "use client";
 import { redirect, useParams, useSearchParams } from "next/navigation";
-import { postQuestDone } from "@/utils/api";
+import { getUser, postLevelUp, postQuestDone } from "@/utils/api";
 import { toast } from "react-toastify";
-/*
+
+/*imp
 クエストをクリックした際に表示される詳細ページ
 
 # UI
@@ -13,6 +14,7 @@ import { toast } from "react-toastify";
 */
 
 import React, { useState } from "react";
+import User from "@/class/user";
 
 interface QuestDetailProps {
   quest: {
@@ -25,25 +27,43 @@ interface QuestDetailProps {
   onComplete: () => void;
 }
 
-const QuestDetail: React.FC<QuestDetailProps> = ({ quest, onComplete }) => {
+const QuestDetail: React.FC<QuestDetailProps> = async ({
+  quest,
+  onComplete,
+}) => {
   const [actionContent, setActionContent] = useState("");
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
+
   const params = useParams();
   const questId = params.id;
   if (!userId || !questId) {
     return <div>エラーが発生しました</div>;
   }
+  const JsonUser = await getUser(userId);
+  const user: User = JSON.parse(JsonUser);
   // questIdがstringであることを確認する
   if (typeof questId !== "string") {
     return <div>エラーが発生しました</div>;
   }
 
   const handleComplete = async () => {
-    await postQuestDone(userId, questId);
+    // await postQuestDone(userId, questId);
+    const nextLevelUpExp = 100 * Math.pow(1.1, user.lv);
+    if (user.exp + quest.baseExp >= nextLevelUpExp) {
+      // レベルアップ
+      user.lv += 1;
+      user.exp = user.exp + quest.baseExp - nextLevelUpExp;
+      await postLevelUp(userId, user.lv, user.exp);
+
+      // onComplete();
+    } else {
+      user.exp += quest.baseExp;
+    }
     toast.success("クエストを完了しました");
+
     redirect("/");
-    onComplete(); // ! このコードに到達していない
+    // ! このコードに到達していない
   };
 
   return (

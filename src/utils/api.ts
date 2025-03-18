@@ -2,7 +2,8 @@ import Es from "@/class/es";
 import { z } from "zod";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 const BACK_END_API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_BASE_URL;
-if (!BACK_END_API_BASE_URL) {
+const DB_BASE_URL = process.env.NEXT_PUBLIC_DB_BASE_URL;
+if (!BACK_END_API_BASE_URL || !DB_BASE_URL) {
   throw new Error("BACK_END_API_BASE_URLが設定されていません");
 }
 
@@ -309,11 +310,44 @@ export const postEsDone = async (JsonEs: string) => {
       };
     });
     result.allScore = allScore;
-
     console.log("result", result);
     return JSON.stringify(result);
 
     // 採点
   };
   return scoreEs(JSON.parse(JsonEs));
+};
+
+export const postLevelUp = async (
+  userId: string,
+  level: number,
+  exp: number,
+) => {
+  const url = `https://xhkstsyfkweoorawugtc.supabase.co/rest/v1/users?user_id=eq.${userId}`;
+  const data = {
+    lv: level,
+    exp: exp,
+  };
+
+  const options = {
+    method: "PATCH", // 部分更新のため PATCH を使用
+    headers: {
+      apikey: "SUPABASE_KEY", // 実際の API キーに置き換えてください
+      Authorization: "Bearer SUPABASE_KEY", // 同上
+      "Content-Type": "application/json",
+      Prefer: "return=representation", // 更新後のデータを返してもらう設定
+    },
+    body: JSON.stringify(data),
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok) {
+      throw new Error(`HTTP エラー！ ステータス: ${response.status}`);
+    }
+    const responseData = await response.json();
+    console.log("更新結果:", responseData);
+  } catch (error) {
+    console.error("更新エラー:", error);
+  }
 };
