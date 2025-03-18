@@ -9,7 +9,7 @@ export default function Menu() {
       <Heading as="h1" size="lg" mb="20px" color="#000">就活QUEST</Heading>
       <List.Root style={{ listStyleType: "none", padding: 0 }}>
         <List.Item style={{ marginBottom: "10px" }}>
-          <Link href="/home" passHref>
+          <Link href="/" passHref>
 
             <FaHome style={{ marginRight: "10px" }} />
             Home
