@@ -13,8 +13,9 @@ import { toast } from "react-toastify";
 - 完了ボタン
 */
 
-import React, { useState } from "react";
-import User from "@/class/user";
+import React, { use, useEffect, useState } from "react";
+const initialLevelUpExp = 100;
+const ratio = 1.1;
 
 interface QuestDetailProps {
   quest: {
@@ -25,45 +26,90 @@ interface QuestDetailProps {
     baseExp: number;
   };
   onComplete: () => void;
+  setCurrentLevel: (level: number) => void;
+  setTotalExp: (exp: number) => void;
 }
+const getNextLevelUpExp = (lv: number) => {
+  // 切り捨てした結果を返す
+  return Math.floor(initialLevelUpExp * Math.pow(ratio, lv));
+};
 
-const QuestDetail: React.FC<QuestDetailProps> = async ({
+const getTotalExp = (lv: number, exp: number) => {
+  const total =
+    (initialLevelUpExp * (1 - Math.pow(ratio, lv))) / (1 - ratio) + exp;
+  return Math.floor(total);
+};
+
+const QuestDetail: React.FC<QuestDetailProps> = ({
   quest,
   onComplete,
+  setCurrentLevel,
+  setTotalExp,
 }) => {
-  const [actionContent, setActionContent] = useState("");
+  const [actionContent, setActionContent] = useState(""); // ユーザー情報の状態ード中の状態
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
 
   const params = useParams();
   const questId = params.id;
+
   if (!userId || !questId) {
     return <div>エラーが発生しました</div>;
   }
-  const JsonUser = await getUser(userId);
-  const user: User = JSON.parse(JsonUser);
-  // questIdがstringであることを確認する
+
   if (typeof questId !== "string") {
     return <div>エラーが発生しました</div>;
   }
 
   const handleComplete = async () => {
-    // await postQuestDone(userId, questId);
-    const nextLevelUpExp = 100 * Math.pow(1.1, user.lv);
-    if (user.exp + quest.baseExp >= nextLevelUpExp) {
-      // レベルアップ
-      user.lv += 1;
-      user.exp = user.exp + quest.baseExp - nextLevelUpExp;
-      await postLevelUp(userId, user.lv, user.exp);
+    const JsonUser = await getUser(userId);
+    const user = JSON.parse(JsonUser);
+    if (!user) {
+      console.error("ユーザー情報がロードされていません");
+      return;
+    }
 
-      // onComplete();
+    //　経験値の分だけレベルアップ処理 ただし、2回以上レベルアップすることもある
+    // 例えば、レベル1で経験値100を得た場合、レベル2になるが、その後も経験値100を得た場合、レベル3になる
+    // その処理を記述して
+    var flag = false;
+    if (user.exp + quest.baseExp >= getNextLevelUpExp(user.lv)) {
+      while (user.exp + quest.baseExp >= getNextLevelUpExp(user.lv)) {
+        flag = true;
+        user.lv += 1;
+        user.exp = user.exp + quest.baseExp - getNextLevelUpExp(user.lv);
+      }
     } else {
       user.exp += quest.baseExp;
     }
-    toast.success("クエストを完了しました");
+    while (user.exp + quest.baseExp >= getNextLevelUpExp(user.lv)) {
+      flag = true;
+      user.lv += 1;
+      user.exp = user.exp + quest.baseExp - getNextLevelUpExp(user.lv);
+    }
+    console.log(user.lv, user.exp);
+    await postLevelUp(userId, user.lv, user.exp);
+    await postQuestDone(userId, questId);
+    if (flag) {
+      onComplete();
+      setCurrentLevel(user.lv);
+      setTotalExp(getTotalExp(user.lv, user.exp));
+    } else {
+      redirect("/");
+    }
+    // const nextLevelUpExp = 100 * Math.pow(1.1, user.lv);
+    // if (user.exp + quest.baseExp >= getNextLevelUpExp) {
+    //   // レベルアップ
+    //   user.lv += 1;
 
-    redirect("/");
-    // ! このコードに到達していない
+    //   user.exp = user.exp + quest.baseExp - nextLevelUpExp;
+    //   await postLevelUp(userId, user.lv, user.exp);
+    //   onComplete();
+    // } else {
+    //   user.exp += quest.baseExp;
+    //   await postLevelUp(userId, user.lv, user.exp);
+    // }
+    toast.success("クエストを完了しました");
   };
 
   return (
