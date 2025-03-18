@@ -5,6 +5,7 @@ import Menu from "@/features/routes/home/Menu";
 import React from "react";
 import { Box } from "@chakra-ui/react";
 import ToastProvider from "./ToastProvider";
+import QuestDetail from "@/features/routes/quest/questDetail";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className="bg-white">
         <Provider>
           <Box display={"flex"} flexDirection={"row"} minHeight={"100vh"}>
             {/* <div className="flex items-start min-h-screen bg-white "> */}
