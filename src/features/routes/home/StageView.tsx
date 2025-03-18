@@ -6,8 +6,15 @@ import React, { useState } from "react";
 import { Box, Button, Heading, Portal, Drawer } from "@chakra-ui/react";
 import themes from "@/constants/themes";
 import QuestBoard from "./questBoard";
+import User from "@/class/user";
 
-export default function StageView({ stages }: { stages: Stage[] }) {
+export default function StageView({
+  stages,
+  user,
+}: {
+  stages: Stage[];
+  user: User;
+}) {
   const columnRation = 100 / stages.length;
   const column = `repeat(${stages.length}, ${columnRation}%)`;
   const [selectedStage, setSelectedStage] = useState<Stage>();
@@ -36,8 +43,8 @@ export default function StageView({ stages }: { stages: Stage[] }) {
               gridRow={y + 1}
               gridColumn={x + 1}
               key={stage.id}
-              width={"100px"}
-              height={"100px"}
+              width={"150px"}
+              height={"150px"}
               borderRadius={"50%"}
               textAlign={"center"}
               lineHeight={"10%"}
@@ -63,7 +70,9 @@ export default function StageView({ stages }: { stages: Stage[] }) {
             <Drawer.Backdrop />
             <Drawer.Positioner>
               <Drawer.Content>
-                {selectedStage && <QuestBoard quests={selectedStage.quests} />}
+                {selectedStage && (
+                  <QuestBoard quests={selectedStage.quests} user={user} />
+                )}
               </Drawer.Content>
             </Drawer.Positioner>
           </Portal>
