@@ -1,5 +1,6 @@
 "use client";
-import EsForm from "@/features/routes/es/EsForm";
+
+import EsForm from "@/features/routes/ES/EsForm";
 import { useParams, useSearchParams } from "next/navigation";
 import React from "react";
 
