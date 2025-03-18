@@ -4,26 +4,43 @@ import { useRouter } from "next/navigation";
 
 import { postEsDone } from "@/utils/api";
 import { MyContext } from "@/provider/esProvider";
-import scoredEs from "@/class/scoredEs";
+import ScoredEs from "@/class/scoredEs";
+import EsResult from "@/features/routes/es/EsResult";
 
 const ResultPage = () => {
   const { es } = useContext(MyContext);
-  const [scoredEs, setScoredEs] = useState<scoredEs | null>(null);
+  const [scoredEsState, setScoredEsState] = useState<ScoredEs | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
     const fetchScoredEs = async () => {
       const JsonEs = JSON.stringify(es);
       const JsonScoredEs = await postEsDone(JsonEs);
-      const result: scoredEs = await JSON.parse(JsonScoredEs);
-      setScoredEs(result);
+      const result = JSON.parse(JsonScoredEs);
+      const newEs: ScoredEs = new ScoredEs(
+        es,
+        result.categories.map((c: any) => {
+          return {
+            name: c.name,
+            score: c.score,
+            fullScore: 20,
+            comment: c.comment,
+          };
+        }),
+        result.allScore,
+        result.correction,
+        result.correctionComment,
+      );
+      setScoredEsState(newEs);
     };
     fetchScoredEs();
-  });
+  }, []); // 空の依存配列を追加
 
   return (
     <div>
       <h1>採点結果ページ</h1>
-      {/* {result ? <EsResult result={result} /> : <p>採点中...</p>} */}
+      {scoredEsState && <EsResult scoredEs={scoredEsState} />}
     </div>
   );
 };
