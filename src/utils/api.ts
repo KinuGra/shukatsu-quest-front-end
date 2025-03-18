@@ -1,4 +1,4 @@
-const BACK_END_API_BASE_URL = process.env.BACK_END_API_BASE_URL;
+const BACK_END_API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_BASE_URL;
 if (!BACK_END_API_BASE_URL) {
   throw new Error("BACK_END_API_BASE_URLが設定されていません");
 }
@@ -127,15 +127,18 @@ export const getStages = async () => {
 // ES以外のクエストをクリア
 export const postQuestDone = async (userId: string, questId: string) => {
   const url = `${BACK_END_API_BASE_URL}/quest/${questId}/user/${userId}`;
+  console.log(url);
   try {
     const response = await fetch(url, {
       method: "POST",
     });
+    console.log(response);
     if (!response.ok) {
+      console.error("Error in postQuestDone:", response);
       throw new Error("クエストのクリアに失敗しました");
     }
   } catch (e) {
-    console.log(e);
+    console.error("Error in postQuestDone:", e);
     throw e;
   }
 };
@@ -164,6 +167,7 @@ export const postEsDone = async (es: {
       },
     );
     if (!response.ok) {
+      console.error("Error in postEsDone:", response);
       throw new Error("ESの提出に失敗しました");
     }
     const resBody: ScoredEsResponse = await response.json();

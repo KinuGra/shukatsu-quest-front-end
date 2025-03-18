@@ -22,9 +22,9 @@ export default async function Home() {
       maxExp: Math.floor(100 * Math.pow(1.1, user.lv)), // 小数点以下を切り捨て
     };
     return (
-      <div className="flex justify-between w-full h-screen">
-        <div className="w-full h-full flex items-center justify-center mr-5">
-          <StageView stages={stages} />
+      <div className="flex justify-between w-full h-screen overflow-scroll p-5">
+        <div className="w-full h-full flex items-center justify-center mr-5 p-10">
+          <StageView stages={stages} user={user} />
         </div>
         {/* <LevelBadge level={level} /> */}
       </div>

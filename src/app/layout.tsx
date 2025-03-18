@@ -3,6 +3,8 @@ import { Provider } from "@/components/ui/provider";
 import "./globals.css";
 import Menu from "@/features/routes/home/Menu";
 import React from "react";
+import { Box } from "@chakra-ui/react";
+import ToastProvider from "./ToastProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -18,10 +20,11 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Provider>
-          <div className="flex items-start min-h-screen bg-white">
+          <Box display={"flex"} flexDirection={"row"} minHeight={"100vh"}>
+            {/* <div className="flex items-start min-h-screen bg-white "> */}
             <Menu />
-              {children}
-          </div>
+            <ToastProvider>{children}</ToastProvider>
+          </Box>
         </Provider>
       </body>
     </html>
