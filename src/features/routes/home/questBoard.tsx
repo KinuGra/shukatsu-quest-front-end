@@ -23,7 +23,7 @@ export default function QuestBoard({
   user: User;
 }) {
   return (
-    <Box width="350px" height="100vh" bg="gray.100" p="20px" boxShadow="none">
+    <Box width="350px" height="100vh" bg="gray.100" p="20px" boxShadow="none"  ml="-30px" >
       <Heading as="h1" size="2xl" mb="20px" color="#000" textAlign="center">
         QuestBoard
       </Heading>
