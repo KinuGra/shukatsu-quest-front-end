@@ -43,7 +43,7 @@ const QuestDetail: React.FC<QuestDetailProps> = ({ quest, onComplete }) => {
     await postQuestDone(userId, questId);
     toast.success("クエストを完了しました");
     redirect("/");
-    onComplete();
+    onComplete(); // ! このコードに到達していない
   };
 
   return (

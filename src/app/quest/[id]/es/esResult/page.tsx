@@ -26,7 +26,7 @@ const ResultPage = () => {
   return (
     <div>
       <h1>採点結果ページ</h1>
-      {/* {result ? <EsResult result={result} /> : <p>採点中...</p>} */}
+      {result ? <EsResult result={result} /> : <p>採点中...</p>}
     </div>
   );
 };
