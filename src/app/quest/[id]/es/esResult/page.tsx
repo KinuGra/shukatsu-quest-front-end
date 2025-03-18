@@ -12,7 +12,7 @@ const ResultPage = () => {
   
 
   useEffect(() => {
-    console.log('うわあああああああ', es);
+    console.log(es);
     if (es.questId && es.userId && es.topic && es.content && es.charLimit) {
       postEsDone(es)
         .then((res) => {
