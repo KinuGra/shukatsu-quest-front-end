@@ -1,0 +1,33 @@
+.step-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step {
+  position: relative;
+  background-color: #4a90e2;
+  color: white;
+  font-weight: bold;
+  text-align: center;
+  padding: 80px 40px; /* 縦幅を広くする */
+  margin-right: 5px;
+  clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0 100%);
+  transition: background-color 0.3s;
+  font-size: 1.2em; /* 文字を大きくする */
+}
+
+.step:last-child {
+  margin-right: 0;
+}
+
+.step.step1 { background-color: #8fa9d8; }
+.step.step2 { background-color: #758fc8; }
+.step.step3 { background-color: #5b75b8; }
+.step.step4 { background-color: #415ba8; }
+.step.step5 { background-color: #274198; }
+.step.step6 { background-color: #0d2788; }
+
+.step:hover {
+  background-color: #1e3a8a;
+}

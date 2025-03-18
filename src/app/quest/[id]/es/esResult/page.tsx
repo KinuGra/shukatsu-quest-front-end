@@ -1,34 +1,29 @@
-'use client';
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import EsResult from "@/features/routes/es/EsResult";
-import Es from "@/class/es";
+"use client";
+import React, { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/navigation";
+
 import { postEsDone } from "@/utils/api";
+import { MyContext } from "@/provider/esProvider";
 import scoredEs from "@/class/scoredEs";
 
 const ResultPage = () => {
-  const router = useRouter();
-  const { questId, userId, topic, content, charLimit } = router.query;
-  const [result, setResult] = useState<string>(
-    "");
+  const { es } = useContext(MyContext);
+  const [scoredEs, setScoredEs] = useState<scoredEs | null>(null);
 
   useEffect(() => {
-    if (typeof questId === 'string' && typeof userId === 'string' && typeof topic === 'string' && typeof content === 'string' && typeof charLimit === 'string') {
-      const es = new Es(questId, userId, topic, content, Number(charLimit));
-      postEsDone(es)
-        .then((res) => {
-          setResult(res);
-        })
-        .catch((error) => {
-          console.error("Failed to post data:", error);
-        });
-    }
-  }, [questId, userId, topic, content, charLimit]);
+    const fetchScoredEs = async () => {
+      const JsonEs = JSON.stringify(es);
+      const JsonScoredEs = await postEsDone(JsonEs);
+      const result: scoredEs = await JSON.parse(JsonScoredEs);
+      setScoredEs(result);
+    };
+    fetchScoredEs();
+  });
 
   return (
     <div>
       <h1>採点結果ページ</h1>
-      {result ? <EsResult result={result} /> : <p>採点中...</p>}
+      {/* {result ? <EsResult result={result} /> : <p>採点中...</p>} */}
     </div>
   );
 };
