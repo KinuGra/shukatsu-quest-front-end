@@ -15,8 +15,10 @@ export default function Page() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [currentLevel, setCurrentLevel] = useState(1);
+    const [totalExp, setTotalExp] = useState(0);
 
     const handleComplete = () => {
+        // setTotalExp(totalExp + quest.baseExp); // ここで経験値を入れておく
         setIsModalOpen(true);
     };
 
@@ -27,6 +29,7 @@ export default function Page() {
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 currentLevel={currentLevel}
+                totalExp={totalExp}
             />
         </>
     );

@@ -1,13 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import Confetti from "react-confetti";
 
 interface LevelUpNotificationProps {
     isOpen: boolean;
     onClose: () => void;
     currentLevel: number;
+    totalExp: number;
 }
 
-const LevelUpNotification: React.FC<LevelUpNotificationProps> = ({ isOpen, onClose, currentLevel }) => {
+const LevelUpNotification: React.FC<LevelUpNotificationProps> = ({ isOpen, onClose, currentLevel, totalExp }) => {
     const [progress, setProgress] = useState(0);
     const [nextLevel, setNextLevel] = useState(currentLevel + 1);
 
@@ -42,6 +44,12 @@ const LevelUpNotification: React.FC<LevelUpNotificationProps> = ({ isOpen, onClo
             justifyContent: 'center',
             alignItems: 'center',
         }}>
+            <Confetti
+                width={window.innerWidth}
+                height={window.innerHeight}
+                numberOfPieces={500}
+                recycle={false}
+            />
             <div style={{
                 backgroundColor: 'white',
                 padding: '20px',
@@ -70,7 +78,7 @@ const LevelUpNotification: React.FC<LevelUpNotificationProps> = ({ isOpen, onClo
                             transition: 'stroke-dashoffset 0.3s',
                         }}
                         strokeDasharray="100, 100"
-                        strokeDashoffset={100 - progress}
+                        strokeDashoffset={100 - (progress * 100) / 100}
                         d="M18 2.0845
                            a 15.9155 15.9155 0 0 1 0 31.831
                            a 15.9155 15.9155 0 0 1 0 -31.831"
@@ -79,7 +87,9 @@ const LevelUpNotification: React.FC<LevelUpNotificationProps> = ({ isOpen, onClo
                         Lv {progress < 100 ? currentLevel : nextLevel}
                     </text>
                 </svg>
-                <p>おめでとうございます！レベルアップしました。</p>
+                <p>合計</p>
+                <p style={{ fontSize: '2rem', color: '#007bff' }}>{totalExp}</p>
+                <p>おめでとうございます！レベルが上がりました！</p>
                 <button onClick={onClose} style={{
                     marginTop: '20px',
                     padding: '10px 20px',
