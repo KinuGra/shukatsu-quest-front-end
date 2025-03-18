@@ -2,20 +2,21 @@ export default class Es {
   id?: string;
   questId: string;
   userId: string;
-  theme: string;
-  answer: string;
-  length: number;
+  topic: string;
+  content: string;
+  charLimit: number;
+
   constructor(
     questId: string,
     userId: string,
-    theme: string,
-    answer: string,
-    length: number,
+    topic: string,
+    content: string,
+    charLimit: number 
   ) {
     this.questId = questId;
     this.userId = userId;
-    this.theme = theme;
-    this.answer = answer;
-    this.length = length;
+    this.topic = topic;
+    this.content = content;
+    this.charLimit = charLimit;
   }
 }

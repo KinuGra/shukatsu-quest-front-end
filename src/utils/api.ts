@@ -147,9 +147,9 @@ export const postEsDone = async (es: Es) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          theme: es.theme,
-          answer: es.answer,
-          length: es.length,
+          content: es.content,
+          topic: es.topic,
+          charLimit: es.charLimit,
         }),
       },
     );

@@ -26,7 +26,7 @@ export default class scoredEs extends Es {
     correction: string,
     correctionComment: string,
   ) {
-    super(es.questId, es.userId, es.theme, es.answer, es.length);
+    super(es.questId, es.userId, es.content, es.topic, es.charLimit);
     this.categories = categories;
     this.allScore = allScore;
     this.correction = correction;

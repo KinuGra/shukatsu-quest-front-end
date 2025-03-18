@@ -14,10 +14,10 @@ export default function QuestBoard({quests}: {quests: Quest[]}) {
         {quests.map((quest) => (
           <List.Item key={quest.id} style={{ marginBottom: "10px" }}>
             <Link href={`/quest/${quest.id}`} passHref>
-              <ChakraLink display="flex" alignItems="center" p="10px 15px" bg="white" borderRadius="md" textDecoration="none" color="gray.800" boxShadow="md">
+
                 <GiSwordsEmblem />
                 {quest.name}
-              </ChakraLink>
+
             </Link>
           </List.Item>
         ))}

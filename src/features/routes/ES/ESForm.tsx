@@ -1,17 +1,22 @@
+'use client';
 import React, { useState } from "react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import styles from "./EsForm.module.css";
+import Es from "@/class/es";
 
-export default function EsForm() {
+
+export default function EsForm({userId, questId}: {userId: string, questId: string}) {
   const [topic, setTopic] = useState("");
-  const [charLimit, setCharLimit] = useState("");
+  const [charLimit, setCharLimit] = useState<number>(0);
   const [content, setContent] = useState("");
   const router = useRouter();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // 採点ロジックをここに追加
-    console.log("採点中...");
+    const es = new Es(questId, userId, topic, content, charLimit);
+    router.push("/quest/[questId]/es/esResult", 
+      
+    );
   };
 
   return (
@@ -36,7 +41,7 @@ export default function EsForm() {
           <input
             type="number"
             value={charLimit}
-            onChange={(e) => setCharLimit(e.target.value)}
+            onChange={(e) => setCharLimit(Number(e.target.value))}
             className={styles.input}
           />
         </div>

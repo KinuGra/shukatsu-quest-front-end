@@ -10,26 +10,26 @@ export default function Menu() {
       <List.Root style={{ listStyleType: "none", padding: 0 }}>
         <List.Item style={{ marginBottom: "10px" }}>
           <Link href="/home" passHref>
-            <ChakraLink display="flex" alignItems="center" p="10px 15px" bg="white" borderRadius="md" textDecoration="none" color="gray.800" boxShadow="md">
-              <FaHome style={{ marginRight: "10px" }} />
-              Home
-            </ChakraLink>
+
+            <FaHome style={{ marginRight: "10px" }} />
+            Home
+
           </Link>
         </List.Item>
         <List.Item style={{ marginBottom: "10px" }}>
           <Link href="/note" passHref>
-            <ChakraLink display="flex" alignItems="center" p="10px 15px" bg="white" borderRadius="md" textDecoration="none" color="gray.800" boxShadow="md">
-              <FaClipboard style={{ marginRight: "10px" }} />
-              Note
-            </ChakraLink>
+
+            <FaClipboard style={{ marginRight: "10px" }} />
+            Note
+
           </Link>
         </List.Item>
         <List.Item style={{ marginBottom: "10px" }}>
           <Link href="/achievement" passHref>
-            <ChakraLink display="flex" alignItems="center" p="10px 15px" bg="white" borderRadius="md" textDecoration="none" color="gray.800" boxShadow="md">
-              <FaTrophy style={{ marginRight: "10px" }} />
-              Achievement
-            </ChakraLink>
+
+            <FaTrophy style={{ marginRight: "10px" }} />
+            Achievement
+
           </Link>
         </List.Item>
       </List.Root>
