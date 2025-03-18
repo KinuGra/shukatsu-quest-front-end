@@ -1,7 +1,6 @@
 //クエストボード
 //中央ステージ一覧
 import React from "react";
-import Link from "next/link";
 import {
   Box,
   Heading,
@@ -43,7 +42,7 @@ export default function QuestBoard({
                 textDecoration="none"
                 color="gray.800"
                 boxShadow="md"
-                href={`/quest/${quest.id}/es`}
+                href={`/quest/${quest.id}/es?userId=${user.id}`}
               >
                 <GiSwordsEmblem />
                 {quest.name}
@@ -58,16 +57,7 @@ export default function QuestBoard({
                 textDecoration="none"
                 color={quest.isDone ? themes.ivory : themes.black}
                 boxShadow="md"
-                onClick={async () => {
-                  console.log("quest.id", quest);
-                  // try {
-                  //   await postQuestDone(user.id, quest.id);
-                  //   toast.success("クエストを完了しました");
-                  // } catch (error) {
-                  //   console.error("Failed to postQuestDone:", error);
-                  //   toast.error("クエストの完了に失敗しました");
-                  // }
-                }}
+                href={`/quest/${quest.id}?userId=${user.id}`}
               >
                 <GiSwordsEmblem />
                 {quest.name + (quest.isDone ? " (完了)" : "")}
