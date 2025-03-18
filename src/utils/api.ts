@@ -3,7 +3,8 @@ import { z } from "zod";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 const BACK_END_API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_BASE_URL;
 const DB_BASE_URL = process.env.NEXT_PUBLIC_DB_BASE_URL;
-if (!BACK_END_API_BASE_URL || !DB_BASE_URL) {
+const DB_API_KEY = process.env.NEXT_PUBLIC_DB_API_KEY;
+if (!BACK_END_API_BASE_URL || !DB_BASE_URL || !DB_API_KEY) {
   throw new Error("BACK_END_API_BASE_URLが設定されていません");
 }
 
@@ -105,6 +106,7 @@ export const getStages = async () => {
   try {
     const response = await fetch(url);
     if (!response.ok) {
+      console.error("Error in getStages:", response);
       throw new Error("ステージが見つかりません");
     }
     const resBody: StageResponse[] = await response.json();
@@ -322,17 +324,17 @@ export const postLevelUp = async (
   level: number,
   exp: number,
 ) => {
-  const url = `https://xhkstsyfkweoorawugtc.supabase.co/rest/v1/users?user_id=eq.${userId}`;
+  const url = `https://xhkstsyfkweoorawugtc.supabase.co/rest/v1/users?id=eq.${userId}`;
   const data = {
     lv: level,
     exp: exp,
   };
-
+  console.log("更新データ:", JSON.stringify(data));
   const options = {
     method: "PATCH", // 部分更新のため PATCH を使用
     headers: {
-      apikey: "SUPABASE_KEY", // 実際の API キーに置き換えてください
-      Authorization: "Bearer SUPABASE_KEY", // 同上
+      apikey: DB_API_KEY, // 実際の API キーに置き換えてください
+      Authorization: `Bearer ${DB_API_KEY}`, // 同上
       "Content-Type": "application/json",
       Prefer: "return=representation", // 更新後のデータを返してもらう設定
     },
