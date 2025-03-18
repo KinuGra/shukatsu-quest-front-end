@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import EsResult from "@/features/routes/es/EsResult";
@@ -9,7 +9,6 @@ const ResultPage = () => {
   const router = useRouter();
   const { es } = useContext(MyContext);
   const [result, setResult] = useState<string>("");
-  
 
   useEffect(() => {
     console.log(es);
@@ -27,7 +26,7 @@ const ResultPage = () => {
   return (
     <div>
       <h1>採点結果ページ</h1>
-      {result ? <EsResult result={result} /> : <p>採点中...</p>}
+      {/* {result ? <EsResult result={result} /> : <p>採点中...</p>} */}
     </div>
   );
 };
