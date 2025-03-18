@@ -36,8 +36,8 @@ export default function StageView({ stages }: { stages: Stage[] }) {
               gridRow={y + 1}
               gridColumn={x + 1}
               key={stage.id}
-              width={"100px"}
-              height={"100px"}
+              width={"200px"}
+              height={"200px"}
               borderRadius={"50%"}
               textAlign={"center"}
               lineHeight={"10%"}
