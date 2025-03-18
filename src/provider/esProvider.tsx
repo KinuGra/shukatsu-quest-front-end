@@ -19,9 +19,9 @@ export const MyContext = createContext<EsContextType>({
   es: {
     questId: "",
     userId: "",
-    topic: "",
-    content: "",
-    charLimit: 0,
+    theme: "",
+    answer: "",
+    length: 0,
   },
   setEs: () => {},
 });
@@ -31,9 +31,9 @@ export const MyProvider = ({ children }: { children: ReactNode }) => {
   const [es, setEs] = useState<Es>({
     questId: "",
     userId: "",
-    topic: "",
-    content: "",
-    charLimit: 0,
+    theme: "",
+    answer: "",
+    length: 0,
   });
 
   return (

@@ -1,3 +1,5 @@
+import Es from "@/class/es";
+
 const BACK_END_API_BASE_URL = process.env.NEXT_PUBLIC_BACK_END_API_BASE_URL;
 if (!BACK_END_API_BASE_URL) {
   throw new Error("BACK_END_API_BASE_URLが設定されていません");
@@ -144,14 +146,29 @@ export const postQuestDone = async (userId: string, questId: string) => {
 };
 
 // ESを提出
-export const postEsDone = async (es: {
-  questId: string;
-  userId: string;
-  topic: string;
-  content: string;
-  charLimit: number;
-}) => {
+export const postEsDone = async (JsonEs: string) => {
+  const es: Es = JSON.parse(JsonEs);
+  console.log("JsonEs", JsonEs);
+
   try {
+    const reqBody = {
+      answer: es.answer,
+      theme: es.theme,
+      length: es.length,
+    };
+    console.log("fetch body", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        theme: "あなたの学生時代に力を入れて取り組んだことは何ですか？",
+        answer:
+          "学生時代はプログラミングの学習に力を入れました。特に、Webアプリケーション開発に興味を持ち、独学でHTML、CSS、JavaScriptを習得しました。",
+        length: 200,
+      }),
+    });
+
     const response = await fetch(
       `${BACK_END_API_BASE_URL}/es/quest/${es.questId}/user/${es.userId}`,
       {
@@ -160,10 +177,12 @@ export const postEsDone = async (es: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          content: es.content,
-          topic: es.topic,
-          charLimit: es.charLimit,
+          theme: "あなたの学生時代に力を入れて取り組んだことは何ですか？",
+          answer:
+            "学生時代はプログラミングの学習に力を入れました。特に、Webアプリケーション開発に興味を持ち、独学でHTML、CSS、JavaScriptを習得しました。",
+          length: 200,
         }),
+        // body: JsonEs,
       },
     );
     if (!response.ok) {
@@ -186,6 +205,8 @@ export const postEsDone = async (es: {
       correction: resBody.correction,
       correctionComment: resBody.correctionComment,
     };
+    console.log("scoredEs", scoredEs);
+
     return JSON.stringify(scoredEs); // プレーンなオブジェクトを返す
   } catch (e) {
     console.error("Error in postEsDone:", e);
