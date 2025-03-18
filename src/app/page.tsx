@@ -1,9 +1,10 @@
 import Quest from "@/class/quest";
 import Stage from "@/class/stage";
+import LevelBadge from "@/features/common/LevelBadge";
 import StageView from "@/features/routes/home/StageView";
 import { getStages, getUser } from "@/utils/api";
 
-type Level = {
+export type Level = {
   level: number;
   exp: number;
   maxExp: number;
@@ -26,7 +27,7 @@ export default async function Home() {
         <div className="w-full h-full flex items-center justify-center mr-5 p-10">
           <StageView stages={stages} user={user} />
         </div>
-        {/* <LevelBadge level={level} /> */}
+        <LevelBadge level={level} />
       </div>
     );
   } catch (error) {
