@@ -1,36 +1,9 @@
+// 採点結果表示
+//フォーム
+"use client";
+import scoredEs from "@/class/scoredEs";
+import React from "react";
 import { Box, Table, Heading, Text} from "@chakra-ui/react";
-//以下はテスト用のデータ
-// const sampleScoredEs = {
-//   allscore: 85,
-//   categories: [
-//     {
-//       name: "内容の充実度",
-//       score: 20,
-//       fullScore: 25,
-//       comment: "具体的な例が豊富で説得力があります。",
-//     },
-//     {
-//       name: "論理性",
-//       score: 18,
-//       fullScore: 20,
-//       comment: "論理的な構成で読みやすいです。",
-//     },
-//     {
-//       name: "表現力",
-//       score: 15,
-//       fullScore: 20,
-//       comment: "表現が豊かで、読み手を引き込む力があります。",
-//     },
-//     {
-//       name: "文法・語彙",
-//       score: 17,
-//       fullScore: 20,
-//       comment: "文法的に正しく、適切な語彙が使われています。",
-//     },
-//   ],
-//   correction: "全体的に良く書けていますが、もう少し具体例を増やすとさらに良くなります。",
-//   correctionComment: "具体例を増やすことで、より説得力が増します。"
-// };
 
 const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
   return (
@@ -67,7 +40,7 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
         <Heading as="h3" size="md" mb={4}>
           採点結果の詳細
         </Heading>
-        
+
         <ul>
           {scoredEs.categories.map((category: any) => (
             <li key={category.name}>
@@ -88,8 +61,4 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
 };
 
 export default ScoreResult;
-
-// 以下はテスト用の文章
-// export default function TestPage() {
-//   return <ScoreResult scoredEs={sampleScoredEs} />;
-// }
+  

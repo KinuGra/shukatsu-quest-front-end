@@ -1,32 +1,48 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import EsResult from "@/features/routes/es/EsResult";
+
 import { postEsDone } from "@/utils/api";
 import { MyContext } from "@/provider/esProvider";
+import ScoredEs from "@/class/scoredEs";
+import EsResult from "@/features/routes/es/EsResult";
 
 const ResultPage = () => {
-  const router = useRouter();
   const { es } = useContext(MyContext);
-  const [result, setResult] = useState<string>("");
+  const [scoredEsState, setScoredEsState] = useState<ScoredEs | undefined>(
+    undefined,
+  );
 
   useEffect(() => {
-    console.log(es);
-    if (es.questId && es.userId && es.topic && es.content && es.charLimit) {
-      postEsDone(es)
-        .then((res) => {
-          setResult(res);
-        })
-        .catch((error) => {
-          console.error("Failed to post data:", error);
-        });
-    }
-  }, [es]);
+    const fetchScoredEs = async () => {
+      const JsonEs = JSON.stringify(es);
+      const JsonScoredEs = await postEsDone(JsonEs);
+      const result = JSON.parse(JsonScoredEs);
+      const newEs: ScoredEs = new ScoredEs(
+        es,
+        result.categories.map((c: any) => {
+          return {
+            name: c.name,
+            score: c.score,
+            fullScore: 20,
+            comment: c.comment,
+          };
+        }),
+        result.allScore,
+        result.correction,
+        result.correctionComment,
+      );
+      setScoredEsState(newEs);
+    };
+    fetchScoredEs();
+  }, []); // 空の依存配列を追加
 
   return (
     <div>
       <h1>採点結果ページ</h1>
-      {result ? <EsResult result={result} /> : <p>採点中...</p>}
+
+
+      {scoredEsState && <EsResult scoredEs={scoredEsState} />}
     </div>
   );
 };
