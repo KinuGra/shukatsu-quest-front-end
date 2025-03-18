@@ -6,6 +6,7 @@ export default class Quest {
   public num: number;
   public type: QuestType;
   public baseExp: number;
+  public isDone: boolean = false;
   constructor(
     id: string,
     name: string,

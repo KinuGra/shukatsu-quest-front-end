@@ -2,7 +2,7 @@ import Quest from "@/class/quest";
 import Stage from "@/class/stage";
 import LevelBadge from "@/features/common/LevelBadge";
 import StageView from "@/features/routes/home/StageView";
-import { getStages, getUser } from "@/utils/api";
+import { getAchievements, getStages, getUser } from "@/utils/api";
 
 export type Level = {
   level: number;
@@ -12,10 +12,13 @@ export type Level = {
 
 export default async function Home() {
   try {
+    const userId = "1e46e6a4-24fa-449b-9ef2-deef7026dc2c";
     const stagesJson = await getStages();
     const stages = JSON.parse(stagesJson);
+    const userJson = await getUser(userId);
+    const achievementsJson = await getAchievements(userId);
+    console.log(stages);
 
-    const userJson = await getUser("1e46e6a4-24fa-449b-9ef2-deef7026dc2c");
     const user = JSON.parse(userJson);
     const level: Level = {
       level: user.lv,

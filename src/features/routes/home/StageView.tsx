@@ -7,7 +7,7 @@ import { Box, Button, Heading, Portal, Drawer } from "@chakra-ui/react";
 import themes from "@/constants/themes";
 import QuestBoard from "./questBoard";
 import User from "@/class/user";
-
+import { getStages } from "@/utils/api";
 export default function StageView({
   stages,
   user,
@@ -18,7 +18,7 @@ export default function StageView({
   const columnRation = 100 / stages.length;
   const column = `repeat(${stages.length}, ${columnRation}%)`;
   const [selectedStage, setSelectedStage] = useState<Stage>();
-
+  const userJson = JSON.stringify(user);
   return (
     <Box padding={"5%"}>
       <Heading>ステージ一覧</Heading>
@@ -31,6 +31,7 @@ export default function StageView({
         alignItems={"center"}
       >
         {stages.map((stage, index) => {
+          // 各ステージを配置
           const y = index;
           let x = index;
           if (index % 5 == 3) {
@@ -38,6 +39,7 @@ export default function StageView({
           } else if (index % 5 == 4) {
             x = 0;
           }
+          console.log(stage.quests);
           return (
             <Button
               gridRow={y + 1}
@@ -48,7 +50,11 @@ export default function StageView({
               borderRadius={"50%"}
               textAlign={"center"}
               lineHeight={"10%"}
-              backgroundColor={themes.charcoalBrown}
+              backgroundColor={
+                selectedStage && selectedStage!.id == stage.id
+                  ? themes.amber
+                  : themes.darkBrown
+              }
               color={themes.white}
               border={"none"}
               cursor={"pointer"}
