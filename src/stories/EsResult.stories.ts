@@ -10,9 +10,9 @@ const meta: Meta<typeof EsResult> = {
       id: "1",
       userId: "1",
       questId: "1",
-      topic: "topic",
-      content: "content",
-      charLimit: 100,
+      theme: "topic",
+      answer: "content",
+      length: 100,
       categories: [
         {
           name: "category1",

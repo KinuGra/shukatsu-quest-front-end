@@ -1,5 +1,3 @@
-import Quest from "@/class/quest";
-import Stage from "@/class/stage";
 import LevelBadge from "@/features/common/LevelBadge";
 import StageView from "@/features/routes/home/StageView";
 import { getAchievements, getStages, getUser } from "@/utils/api";
@@ -17,7 +15,6 @@ export default async function Home() {
     const stages = JSON.parse(stagesJson);
     const userJson = await getUser(userId);
     const achievementsJson = await getAchievements(userId);
-    console.log(stages);
 
     const user = JSON.parse(userJson);
     const level: Level = {
