@@ -24,7 +24,13 @@ export default function EsForm({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // フォーム送信時にESインスタンスを作成してコンテキストを更新
-    const newEs = { questId, userId, topic, content, charLimit } as Es;
+    const newEs = {
+      questId,
+      userId,
+      theme: topic,
+      answer: content,
+      length: charLimit,
+    } as Es;
     setEs(newEs);
     router.push(`/quest/${questId}/es/esResult`);
   };
