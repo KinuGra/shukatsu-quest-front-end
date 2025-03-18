@@ -22,9 +22,10 @@ interface QuestDetailProps {
     num: number;
     baseExp: number;
   };
+  onComplete: () => void;
 }
 
-const QuestDetail: React.FC<QuestDetailProps> = ({ quest }) => {
+const QuestDetail: React.FC<QuestDetailProps> = ({ quest, onComplete }) => {
   const [actionContent, setActionContent] = useState("");
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
@@ -42,6 +43,7 @@ const QuestDetail: React.FC<QuestDetailProps> = ({ quest }) => {
     await postQuestDone(userId, questId);
     toast.success("クエストを完了しました");
     redirect("/");
+    onComplete(); // ! このコードに到達していない
   };
 
   return (

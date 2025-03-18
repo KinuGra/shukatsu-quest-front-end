@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import EsResult from "@/features/routes/es/EsResult";
+
 import { postEsDone } from "@/utils/api";
 import { MyContext } from "@/provider/esProvider";
 import scoredEs from "@/class/scoredEs";
