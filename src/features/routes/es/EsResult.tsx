@@ -3,17 +3,23 @@
 "use client";
 import scoredEs from "@/class/scoredEs";
 import React from "react";
-import { Box, Table, Heading, Text} from "@chakra-ui/react";
+import { Box, Table, Heading, Text } from "@chakra-ui/react";
 
 const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
   return (
-    <Box maxW="800px" mx="auto" p={5} boxShadow="md" borderRadius="md" bg="blue.50">
+    <Box
+      maxW="800px"
+      mx="auto"
+      p={5}
+      boxShadow="md"
+      borderRadius="md"
+      bg="blue.50"
+    >
       <Box textAlign="center" fontSize="xl" fontWeight="bold" mb={3}>
         あなたの文章の採点結果（100点満点）
       </Box>
       <Box textAlign="center" fontSize="2xl" fontWeight="bold" mb={4}>
-       60点
-       {/* {scoredEs.allscore} */}
+        {scoredEs.allScore}
       </Box>
       <Table.Root variant="outline" size="md" colorPalette="blue">
         <Table.Header>
@@ -23,12 +29,12 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-        {scoredEs.categories.map((category: any) => (
-          <Table.Row key={category.name}>
-            <Table.Cell>{category.name}</Table.Cell>
-            <Table.Cell>{category.score}</Table.Cell>
-          </Table.Row>
-        ))}
+          {scoredEs.categories.map((category: any) => (
+            <Table.Row key={category.name}>
+              <Table.Cell>{category.name}</Table.Cell>
+              <Table.Cell>{category.score}</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table.Root>
       {/* <Box textAlign="center" mt={4}>
@@ -36,7 +42,7 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
           添削結果を見る
         </button>
       </Box> */}
-       <Box mt={6}>
+      <Box mt={6}>
         <Heading as="h3" size="md" mb={4}>
           採点結果の詳細
         </Heading>
@@ -52,7 +58,7 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
 
         {/* 全体の評価と修正コメント */}
         <Box mt={6}>
-          <p>添削 : {scoredEs.corection}</p>
+          <p>添削 : {scoredEs.correction}</p>
           <p>修正コメント：{scoredEs.correctionComment}</p>
         </Box>
       </Box>
@@ -61,4 +67,3 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
 };
 
 export default ScoreResult;
-  

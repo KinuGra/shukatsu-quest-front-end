@@ -252,6 +252,7 @@ export const postEsDone = async (JsonEs: string) => {
       score: number;
       comment: string;
     }[];
+    allScore: number;
   };
 
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
@@ -297,7 +298,9 @@ export const postEsDone = async (JsonEs: string) => {
     const result = (await structuredLlm.invoke(
       `次のESを採点し、指定された形式に則って採点・コメントを返してください。なお、コメントは日本語で記述してください。テーマ：${es.theme}、回答：${es.answer}、文字数：${es.length}`,
     )) as llmOutput;
+    var allScore: number = 0;
     result.categories = result.categories.map((c, index) => {
+      allScore += c.score;
       return {
         name: scoring.categories[index].name,
         score: c.score,
@@ -305,6 +308,7 @@ export const postEsDone = async (JsonEs: string) => {
         comment: c.comment,
       };
     });
+    result.allScore = allScore;
 
     console.log("result", result);
     return JSON.stringify(result);
