@@ -19,14 +19,16 @@ interface QuestDetailProps {
     num: number;
     baseExp: number;
   };
+  onComplete: () => void;
 }
 
-const QuestDetail: React.FC<QuestDetailProps> = ({ quest }) => {
+const QuestDetail: React.FC<QuestDetailProps> = ({ quest, onComplete }) => {
   const [actionContent, setActionContent] = useState('');
 
   const handleComplete = () => {
     // 完了ボタンが押された時の処理
     console.log('クエスト完了:', actionContent);
+    onComplete();
   };
 
   return (
