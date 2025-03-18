@@ -297,6 +297,14 @@ export const postEsDone = async (JsonEs: string) => {
     const result = (await structuredLlm.invoke(
       `次のESを採点し、指定された形式に則って採点・コメントを返してください。なお、コメントは日本語で記述してください。テーマ：${es.theme}、回答：${es.answer}、文字数：${es.length}`,
     )) as llmOutput;
+    result.categories = result.categories.map((c, index) => {
+      return {
+        name: scoring.categories[index].name,
+        score: c.score,
+        fullScore: scoring.categories[index].fullScore,
+        comment: c.comment,
+      };
+    });
 
     console.log("result", result);
     return JSON.stringify(result);

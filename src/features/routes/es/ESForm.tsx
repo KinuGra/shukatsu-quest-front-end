@@ -6,7 +6,7 @@ import styles from "./EsForm.module.css";
 import Es from "@/class/es";
 import { MyContext } from "@/provider/esProvider";
 
-export default function EsForm({
+export default function ESForm({
   userId,
   questId,
 }: {
