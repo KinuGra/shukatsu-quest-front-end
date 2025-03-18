@@ -36,28 +36,27 @@ export default function ESForm({
   };
 
   return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>ESフォーム</h1>
+    <div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label className={styles.label}>お題の選択:</label>
-          <select
+          <label className={styles.label}>お題の入力:</label>
+          <input
+            type="text"
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
-            className={styles.select}
-          >
-            <option value="">選択してください</option>
-            <option value="topic1">お題1</option>
-            <option value="topic2">お題2</option>
-          </select>
+            className={styles.input}
+            placeholder="例：学生時代に力を入れたことはなんですか？"
+          />
         </div>
         <div className={styles.formGroup}>
-          <label className={styles.label}>ESの制限文字数の選択:</label>
+          <label className={styles.label}>ESの制限文字数:</label>
           <input
             type="number"
             value={charLimit}
             onChange={(e) => setCharLimit(Number(e.target.value))}
             className={styles.input}
+            placeholder="400"
+            min="0"
           />
         </div>
         <div className={styles.formGroup}>
