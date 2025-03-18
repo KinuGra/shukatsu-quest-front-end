@@ -1,6 +1,6 @@
 "use client";
 
-import EsForm from "@/features/routes/es/EsForm";
+import ESForm from "@/features/routes/es/ESForm";
 import { useParams, useSearchParams } from "next/navigation";
 import React from "react";
 
@@ -20,7 +20,7 @@ export default function FormPage() {
   return (
     <div>
       <h1>ESフォームページ</h1>
-      <EsForm userId={userId} questId={questId} />
+      <ESForm userId={userId} questId={questId} />
     </div>
   );
 }
