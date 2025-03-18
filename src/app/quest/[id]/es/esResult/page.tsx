@@ -1,27 +1,24 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-import EsResult from "@/features/routes/es/EsResult";
+
 import { postEsDone } from "@/utils/api";
 import { MyContext } from "@/provider/esProvider";
+import scoredEs from "@/class/scoredEs";
 
 const ResultPage = () => {
-  const router = useRouter();
   const { es } = useContext(MyContext);
-  const [result, setResult] = useState<string>("");
+  const [scoredEs, setScoredEs] = useState<scoredEs | null>(null);
 
   useEffect(() => {
-    console.log(es);
-    if (es.questId && es.userId && es.topic && es.content && es.charLimit) {
-      postEsDone(es)
-        .then((res) => {
-          setResult(res);
-        })
-        .catch((error) => {
-          console.error("Failed to post data:", error);
-        });
-    }
-  }, [es]);
+    const fetchScoredEs = async () => {
+      const JsonEs = JSON.stringify(es);
+      const JsonScoredEs = await postEsDone(JsonEs);
+      const result: scoredEs = await JSON.parse(JsonScoredEs);
+      setScoredEs(result);
+    };
+    fetchScoredEs();
+  });
 
   return (
     <div>
