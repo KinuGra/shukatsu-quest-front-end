@@ -39,8 +39,7 @@ const ResultPage = () => {
 
   return (
     <div>
-      <h1>採点結果ページ</h1>
-
+      {/* <h1>採点結果ページ</h1> */}
 
       {scoredEsState && <EsResult scoredEs={scoredEsState} />}
     </div>

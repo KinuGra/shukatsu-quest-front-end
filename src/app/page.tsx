@@ -14,7 +14,6 @@ export default async function Home() {
     const stagesJson = await getStages();
     const stages = JSON.parse(stagesJson);
     const userJson = await getUser(userId);
-    const achievementsJson = await getAchievements(userId);
 
     const user = JSON.parse(userJson);
     const level: Level = {
