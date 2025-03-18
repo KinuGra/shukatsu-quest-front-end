@@ -7,7 +7,7 @@ import { Box, Button, Heading, Portal, Drawer } from "@chakra-ui/react";
 import themes from "@/constants/themes";
 import QuestBoard from "./questBoard";
 import User from "@/class/user";
-import { getStages } from "@/utils/api";
+
 export default function StageView({
   stages,
   user,
@@ -18,7 +18,6 @@ export default function StageView({
   const columnRation = 100 / stages.length;
   const column = `repeat(${stages.length}, ${columnRation}%)`;
   const [selectedStage, setSelectedStage] = useState<Stage>();
-  const userJson = JSON.stringify(user);
   return (
     <Box padding={"5%"}>
       <Heading>ステージ一覧</Heading>
