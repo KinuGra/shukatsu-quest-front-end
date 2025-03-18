@@ -2,10 +2,11 @@
 //中央ステージ一覧
 import React from "react";
 import "./LevelBadge.css";
+import { Level } from "@/app/page";
 
-export default function LevelBadge() {
-  const currentLevel = 7; // 現在のレベル
-  const experiencePercentage = 90; // 次のレベルまでの経験値の割合
+export default function LevelBadge({ level }: { level: Level }) {
+  // 現在のレベル
+  const experiencePercentage = (level.exp / level.maxExp) * 100; // 次のレベルまでの経験値の割合
 
   return (
     <div className="level-badge">
@@ -23,7 +24,7 @@ export default function LevelBadge() {
              a 15.9155 15.9155 0 0 1 0 31.831
              a 15.9155 15.9155 0 0 1 0 -31.831"
         />
-        <text x="18" y="18" className="percentage">{`Lv ${currentLevel}`}</text>
+        <text x="18" y="18" className="percentage">{`Lv ${level.level}`}</text>
       </svg>
       <div className="background-circle" />
     </div>

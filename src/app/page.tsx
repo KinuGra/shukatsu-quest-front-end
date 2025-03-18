@@ -1,8 +1,10 @@
+import Quest from "@/class/quest";
+import Stage from "@/class/stage";
 import LevelBadge from "@/features/common/LevelBadge";
 import StageView from "@/features/routes/home/StageView";
 import { getStages, getUser } from "@/utils/api";
 
-type Level = {
+export type Level = {
   level: number;
   exp: number;
   maxExp: number;
@@ -10,18 +12,20 @@ type Level = {
 
 export default async function Home() {
   try {
-    const stages = await getStages();
-    const user = await getUser("1e46e6a4-24fa-449b-9ef2-deef7026dc2c");
+    const stagesJson = await getStages();
+    const stages = JSON.parse(stagesJson);
+
+    const userJson = await getUser("1e46e6a4-24fa-449b-9ef2-deef7026dc2c");
+    const user = JSON.parse(userJson);
     const level: Level = {
       level: user.lv,
       exp: user.exp,
-      maxExp: 100 * 1.1 ** user.lv,
+      maxExp: Math.floor(100 * Math.pow(1.1, user.lv)), // 小数点以下を切り捨て
     };
-
     return (
-      <div className="flex justify-between w-full h-screen">
-        <div className="w-full h-full flex items-center justify-center mr-5">
-          <StageView stages={stages} />
+      <div className="flex justify-between w-full h-screen overflow-scroll p-5">
+        <div className="w-full h-full flex items-center justify-center mr-5 p-10">
+          <StageView stages={stages} user={user} />
         </div>
         <LevelBadge level={level} />
       </div>

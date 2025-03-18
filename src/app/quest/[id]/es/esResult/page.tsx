@@ -9,8 +9,8 @@ import scoredEs from "@/class/scoredEs";
 const ResultPage = () => {
   const router = useRouter();
   const { questId, userId, topic, content, charLimit } = router.query;
-  const [result, setResult] = useState<scoredEs>(
-    new scoredEs(new Es("", "", "", "", 0), [], 0, "", ""));
+  const [result, setResult] = useState<string>(
+    "");
 
   useEffect(() => {
     if (typeof questId === 'string' && typeof userId === 'string' && typeof topic === 'string' && typeof content === 'string' && typeof charLimit === 'string') {
