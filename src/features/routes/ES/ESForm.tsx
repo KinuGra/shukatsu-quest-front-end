@@ -1,23 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./EsForm.module.css";
 import Es from "@/class/es";
+import { MyContext } from "@/provider/esProvider";
 
-
-export default function EsForm({userId, questId}: {userId: string, questId: string}) {
+export default function EsForm({
+  userId,
+  questId,
+}: {
+  userId: string;
+  questId: string;
+}) {
   const [topic, setTopic] = useState("");
   const [charLimit, setCharLimit] = useState<number>(0);
   const [content, setContent] = useState("");
   const router = useRouter();
+  const { es, setEs } = useContext(MyContext);
+
+  console.log(es);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const es = new Es(questId, userId, topic, content, charLimit);
-    router.push("/quest/[questId]/es/esResult", 
-      
-    );
+    // フォーム送信時にESインスタンスを作成してコンテキストを更新
+    const newEs = { questId, userId, topic, content, charLimit } as Es;
+    setEs(newEs);
+    router.push(`/quest/${questId}/es/esResult`);
   };
 
   return (
@@ -34,7 +43,6 @@ export default function EsForm({userId, questId}: {userId: string, questId: stri
             <option value="">選択してください</option>
             <option value="topic1">お題1</option>
             <option value="topic2">お題2</option>
-            {/* 他のお題を追加 */}
           </select>
         </div>
         <div className={styles.formGroup}>
@@ -57,13 +65,6 @@ export default function EsForm({userId, questId}: {userId: string, questId: stri
         </div>
         <button type="submit" className={styles.button}>
           採点
-        </button>
-        <button
-          type="button"
-          onClick={() => router.push("/")}
-          className={styles.button}
-        >
-          Homeに戻る
         </button>
       </form>
     </div>

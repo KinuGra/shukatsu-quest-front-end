@@ -1,20 +1,19 @@
 'use client';
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import React, { useEffect, useState, useContext } from "react";
+import { useRouter } from "next/navigation";
 import EsResult from "@/features/routes/es/EsResult";
-import Es from "@/class/es";
 import { postEsDone } from "@/utils/api";
-import scoredEs from "@/class/scoredEs";
+import { MyContext } from "@/provider/esProvider";
 
 const ResultPage = () => {
   const router = useRouter();
-  const { questId, userId, topic, content, charLimit } = router.query;
-  const [result, setResult] = useState<string>(
-    "");
+  const { es } = useContext(MyContext);
+  const [result, setResult] = useState<string>("");
+  
 
   useEffect(() => {
-    if (typeof questId === 'string' && typeof userId === 'string' && typeof topic === 'string' && typeof content === 'string' && typeof charLimit === 'string') {
-      const es = new Es(questId, userId, topic, content, Number(charLimit));
+    console.log('うわあああああああ', es);
+    if (es.questId && es.userId && es.topic && es.content && es.charLimit) {
       postEsDone(es)
         .then((res) => {
           setResult(res);
@@ -23,7 +22,7 @@ const ResultPage = () => {
           console.error("Failed to post data:", error);
         });
     }
-  }, [questId, userId, topic, content, charLimit]);
+  }, [es]);
 
   return (
     <div>
