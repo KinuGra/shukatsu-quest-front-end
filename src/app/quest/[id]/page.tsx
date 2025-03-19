@@ -39,7 +39,7 @@ export default function Page() {
           redirect("/");
         }}
         // setTotalExp={setTotalExp}
-        currentLevel={currentLevel}
+        currentLevel={currentLevel - 1}
         totalExp={totalExp}
       />
     </>
