@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/navigation";
+import { Box, Heading, Spinner, Text } from "@chakra-ui/react";
 
 import { postEsDone } from "@/utils/api";
 import { MyContext } from "@/provider/esProvider";
@@ -12,37 +12,82 @@ const ResultPage = () => {
   const [scoredEsState, setScoredEsState] = useState<ScoredEs | undefined>(
     undefined,
   );
+  const [isLoading, setIsLoading] = useState(true); // ローディング状態を追加
 
   useEffect(() => {
     const fetchScoredEs = async () => {
-      const JsonEs = JSON.stringify(es);
-      const JsonScoredEs = await postEsDone(JsonEs);
-      const result = JSON.parse(JsonScoredEs);
-      const newEs: ScoredEs = new ScoredEs(
-        es,
-        result.categories.map((c: any) => {
-          return {
-            name: c.name,
-            score: c.score,
-            fullScore: 20,
-            comment: c.comment,
-          };
-        }),
-        result.allScore,
-        result.correction,
-        result.correctionComment,
-      );
-      setScoredEsState(newEs);
+      try {
+        const JsonEs = JSON.stringify(es);
+        const JsonScoredEs = await postEsDone(JsonEs);
+        const result = JSON.parse(JsonScoredEs);
+        const newEs: ScoredEs = new ScoredEs(
+          es,
+          result.categories.map((c: any) => {
+            return {
+              name: c.name,
+              score: c.score,
+              fullScore: 20,
+              comment: c.comment,
+            };
+          }),
+          result.allScore,
+          result.correction,
+          result.correctionComment,
+        );
+        setScoredEsState(newEs);
+      } catch (error) {
+        console.error("Error fetching scored ES:", error);
+      } finally {
+        setIsLoading(false); // ローディング終了
+      }
     };
     fetchScoredEs();
-  }, []); // 空の依存配列を追加
+  }, []);
 
   return (
-    <div>
-      {/* <h1>採点結果ページ</h1> */}
+    <Box
+      maxW="800px"
+      mx="auto"
+      mt="10"
+      p="6"
+      borderWidth="1px"
+      borderRadius="lg"
+      boxShadow="md"
+      bg="white"
+    >
+      <Heading
+        as="h1"
+        size="lg"
+        textAlign="center"
+        mb="6"
+        color="teal.600"
+        fontWeight="bold"
+      >
+        採点結果ページ
+      </Heading>
 
-      {scoredEsState && <EsResult scoredEs={scoredEsState} />}
-    </div>
+      {isLoading ? (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          height="200px"
+        >
+          <Spinner size="xl" color="teal.500" />
+        </Box>
+      ) : scoredEsState ? (
+        <EsResult scoredEs={scoredEsState} />
+      ) : (
+        <Text
+          color="red.500"
+          textAlign="center"
+          fontSize="lg"
+          fontWeight="bold"
+        >
+          採点結果を取得できませんでした
+        </Text>
+      )}
+    </Box>
   );
 };
 

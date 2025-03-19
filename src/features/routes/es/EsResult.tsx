@@ -3,7 +3,7 @@
 "use client";
 import scoredEs from "@/class/scoredEs";
 import React from "react";
-import { Box, Table, Heading, Text} from "@chakra-ui/react";
+import { Box, Table, Heading, Text } from "@chakra-ui/react";
 
 const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
   return (
@@ -19,8 +19,7 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
         あなたの文章の採点結果（100点満点）
       </Box>
       <Box textAlign="center" fontSize="2xl" fontWeight="bold" mb={4}>
-       60点
-       {/* {scoredEs.allscore} */}
+        {scoredEs.allScore}
       </Box>
       <Table.Root variant="outline" size="md" colorPalette="blue">
         <Table.Header>
@@ -30,12 +29,12 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-        {scoredEs.categories.map((category: any) => (
-          <Table.Row key={category.name}>
-            <Table.Cell>{category.name}</Table.Cell>
-            <Table.Cell>{category.score}</Table.Cell>
-          </Table.Row>
-        ))}
+          {scoredEs.categories.map((category: any) => (
+            <Table.Row key={category.name}>
+              <Table.Cell>{category.name}</Table.Cell>
+              <Table.Cell>{category.score}</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
       </Table.Root>
 
@@ -47,14 +46,12 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
           </Table.Row>
         </Table.Header>
         <Table.Body>
-
           {scoredEs.categories.map((category: any) => (
             <Table.Row key={category.name}>
               <Table.Cell>{category.name}</Table.Cell>
               <Table.Cell>{category.comment}</Table.Cell>
             </Table.Row>
           ))}
-
         </Table.Body>
       </Table.Root>
       <Table.Root variant="outline" size="md" colorPalette="blue" mt={6}>
@@ -76,4 +73,3 @@ const ScoreResult = ({ scoredEs }: { scoredEs: any }) => {
 };
 
 export default ScoreResult;
-  
