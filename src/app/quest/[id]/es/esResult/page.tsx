@@ -1,11 +1,12 @@
 "use client";
 import React, { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 
 import { postEsDone } from "@/utils/api";
 import { MyContext } from "@/provider/esProvider";
 import ScoredEs from "@/class/scoredEs";
 import EsResult from "@/features/routes/es/EsResult";
+import LevelUpNotification from "@/features/routes/quest/LevelUpNotification";
 
 const ResultPage = () => {
   const { es } = useContext(MyContext);
@@ -42,6 +43,16 @@ const ResultPage = () => {
       {/* <h1>採点結果ページ</h1> */}
 
       {scoredEsState && <EsResult scoredEs={scoredEsState} />}
+      <LevelUpNotification
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          redirect("/");
+        }}
+        // setTotalExp={setTotalExp}
+        currentLevel={currentLevel}
+        totalExp={totalExp}
+      />
     </div>
   );
 };
