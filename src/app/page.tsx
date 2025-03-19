@@ -14,6 +14,7 @@ export default async function Home() {
     const stagesJson = await getStages();
     const stages = JSON.parse(stagesJson);
     const userJson = await getUser(userId);
+    console.log(stages);
 
     const user = JSON.parse(userJson);
     const level: Level = {

@@ -3,15 +3,18 @@ import Quest from "@/class/quest";
 import QuestDetail from "@/features/routes/quest/questDetail";
 import LevelUpNotification from "@/features/routes/quest/LevelUpNotification";
 import { useEffect, useState } from "react";
-import { redirect } from "next/navigation";
+import { redirect, useParams, useSearchParams } from "next/navigation";
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const params = useParams();
+
   const quest: Quest = {
-    id: "1",
-    name: "面接対策",
+    id: params.id as string,
+    name: searchParams.get("name") || "クエスト",
     type: "normal",
-    num: 1,
-    baseExp: 100,
+    num: Number(searchParams.get("num")) || 1,
+    baseExp: Number(searchParams.get("baseExp")) || 100,
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);

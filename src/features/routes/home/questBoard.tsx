@@ -19,11 +19,18 @@ export default function QuestBoard({
   quests,
   user,
 }: {
-  quests: Quest[];
+  quests: any[];
   user: User;
 }) {
   return (
-    <Box width="350px" height="100vh" bg="gray.100" p="20px" boxShadow="none"  ml="-30px" >
+    <Box
+      width="350px"
+      height="100vh"
+      bg="gray.100"
+      p="20px"
+      boxShadow="none"
+      ml="-30px"
+    >
       <Heading as="h1" size="2xl" mb="20px" color="#000" textAlign="center">
         QuestBoard
       </Heading>
@@ -55,7 +62,7 @@ export default function QuestBoard({
                 textDecoration="none"
                 color={quest.isDone ? themes.ivory : themes.black}
                 boxShadow="md"
-                href={`/quest/${quest.id}?userId=${user.id}`}
+                href={`/quest/${quest.id}?userId=${user.id}&type=${quest.type}&num=${quest.number}&baseExp=${quest.baseExp}&name=${quest.name}`}
               >
                 <GiSwordsEmblem />
                 {quest.name + (quest.isDone ? " (完了)" : "")}

@@ -34,7 +34,7 @@ type QuestResponse = {
   name: string;
   number: number;
   type: string;
-  baseExp: number;
+  base_exp: number;
 };
 
 type ScoredEsResponse = {
@@ -119,7 +119,7 @@ export const getStages = async () => {
         name: q.name,
         number: q.number,
         type: q.type,
-        baseExp: q.baseExp,
+        baseExp: q.base_exp,
       })),
     }));
 
