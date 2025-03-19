@@ -255,6 +255,7 @@ export const postEsDone = async (JsonEs: string) => {
       score: number;
       comment: string;
     }[];
+    allScore: number;
   };
 
   const apiKey = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
@@ -307,6 +308,10 @@ export const postEsDone = async (JsonEs: string) => {
         fullScore: scoring.categories[index].fullScore,
         comment: c.comment,
       };
+    });
+    let allScore = 0;
+    result.categories.forEach((c) => {
+      allScore += c.score;
     });
 
     result.allScore = allScore;
