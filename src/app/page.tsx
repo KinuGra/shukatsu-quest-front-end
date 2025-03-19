@@ -14,7 +14,6 @@ export default async function Home() {
     const stagesJson = await getStages();
     const stages = JSON.parse(stagesJson);
     const userJson = await getUser(userId);
-    console.log(stages);
 
     const user = JSON.parse(userJson);
     const level: Level = {
@@ -22,19 +21,27 @@ export default async function Home() {
       exp: user.exp,
       maxExp: Math.floor(100 * Math.pow(1.1, user.lv)), // 小数点以下を切り捨て
     };
+
     return (
-      <div className="flex justify-between w-full h-screen overflow-scroll p-5">
-        <div className="w-full h-full flex items-center justify-center mr-5 p-10">
+      <div className="w-full">
+        {/* 左側のステージビュー 中央よせ */}
+        <div className=" h-full flex justify-center items-center">
           <StageView stages={stages} user={user} />
         </div>
-        <LevelBadge level={level} />
+
+        {/* 右上のレベルバッジ */}
+        <div className="absolute top-5 right-5 p-5 bg-white shadow-md rounded-lg">
+          <LevelBadge level={level} />
+        </div>
       </div>
     );
   } catch (error) {
     console.error("Failed to load data:", error);
     return (
-      <div className="flex justify-center items-center w-full h-screen">
-        <p>データの読み込みに失敗しました。</p>
+      <div className="flex justify-center items-center w-full h-full bg-gray-100">
+        <p className="text-red-500 font-bold">
+          データの読み込みに失敗しました。
+        </p>
       </div>
     );
   }

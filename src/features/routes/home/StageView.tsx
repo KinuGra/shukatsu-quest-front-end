@@ -22,7 +22,7 @@ export default function StageView({
   const [selectedStage, setSelectedStage] = useState<Stage>();
   const userJson = JSON.stringify(user);
   return (
-    <Box padding={"5%"}>
+    <Box>
       <Heading>ステージ一覧</Heading>
       <Box className="step-container">
         {stages.map((stage, index) => {
@@ -33,6 +33,7 @@ export default function StageView({
               onClick={() => {
                 setSelectedStage(stage);
               }}
+              width={"240px"}
             >
               {stage.name}
             </Button>
