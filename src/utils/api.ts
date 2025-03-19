@@ -59,7 +59,13 @@ type CategoryResponse = {
 export const getUser = async (userId: string) => {
   const url = `${BACK_END_API_BASE_URL}/user/${userId}`;
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "Cache-Control": "no-store, max-age=0",
+      },
+    });
     if (!response.ok) {
       throw new Error("ユーザーが見つかりません");
     }
